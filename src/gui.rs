@@ -579,8 +579,21 @@ fn chip_color(errors: u64) -> egui::Color32 {
 }
 
 pub fn run_gui() -> eframe::Result<()> {
+    let icon_data = {
+        let image = image::load_from_memory(include_bytes!("../assets/icon.png"))
+            .expect("Failed to load window icon")
+            .into_rgba8();
+        let (width, height) = image.dimensions();
+        egui::IconData {
+            rgba: image.into_raw(),
+            width,
+            height,
+        }
+    };
+
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
+            .with_icon(icon_data)
             .with_inner_size([600.0, 560.0])
             .with_min_inner_size([540.0, 480.0])
             .with_title("VRAM Diagnostics v0.1.0"),

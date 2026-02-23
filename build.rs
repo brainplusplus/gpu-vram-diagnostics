@@ -48,6 +48,16 @@ fn main() {
             ptx_file.display()
         );
     }
+
+    // Add Windows Application Icon
+    #[cfg(windows)]
+    {
+        let mut res = winres::WindowsResource::new();
+        res.set_icon("assets/icon.ico");
+        if let Err(e) = res.compile() {
+            println!("cargo:warning=Failed to compile Windows resource (icon). Make sure assets/icon.ico exists. Error: {}", e);
+        }
+    }
 }
 
 fn find_nvcc() -> Option<PathBuf> {
